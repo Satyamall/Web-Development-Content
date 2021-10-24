@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+         .hidden{
+            display: none;
+        }
+        .visible{
+            display: block;
+        }
+        .post-container{
+            padding: 1rem;
+            margin-bottom: 1rem;
+            outline: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <form id="input-container">
+        <div><input name="title" type="text" placeholder="title"></div>
+        <div><input name="body" type="text" placeholder="body"></div>
+        <div><input type="submit" value="Submit"></div>
+    </form>
+
+    <div id="loading" class="hidden">...loading</div>
+
+    <div id="results">
+        
+    </div>
+    <div id="pagination">
+        <!-- Prev -->
+        <!-- current -->
+        <!-- Next -->
+    </div>
+
+    <script type="text/javascript">
+        let currentPage = 1;
+        let limit = 3;
+        let data =[];
+
+        window.addEventListener("load", function(){
+            const form = document.getElementById("input-container");
+            form.addEventListener("submit", handleSubmit);
+            fetchPosts(currentPage,limit);
+
+            createPagination();
+
+            const pagination = document.getElementById("pagination");
+            pagination.addEventListener("click",handlePageChange);
+            
+            const results = document.getElementById("results");
+            results.addEventListener("click",handleDelete);
+
+        })
+         
+       async function handleDelete(){
+            try{
+                if(event.target.className !== "delete-post-btn")
+                {
+                    return
+                }
+                const id = event.target.name;
+               const res = await deletePost(id);
+               fetchPosts(currentPage,limit);
+            }catch(err){
+
+            }
+
+        }
+
+        function deletePost(id){
+            if(!id){
+                return
+            }
+            const config = {
+                method: "DELETE"
+            }
+            return fetch(`http://localhost:3000/post/${id}`,config)
+            .then(function(response){
+                return response.json();
+            })
+        }
+        async function handlePageChange(){
+            try
+            {
+                const pageNumber = parseInt(event.target.name);
+                console.log(pageNumber);
+                currentPage = pageNumber;
+                fetchPosts(currentPage,limit);
+                createPagination()
+            }catch(e){
+
+            }
+        }
+
+        function createPagination(){
+            const div = document.getElementById("pagination");
+            div.innerHTML = null;
+            const prev = document.createElement("button");
+            prev.textContent = "Previous";
+            prev.name = currentPage-1;
+            if(currentPage===1)
+            {
+                prev.disabled=true;
+            }
+
+            const current = document.createElement("button");
+            current.textContent = "Current";
+            current.name= currentPage;
+
+            const next = document.createElement("button");
+            next.textContent = "Next";
+            next.name=currentPage+1;
+
+            div.append(prev,current,next);
+        }
+        function setLoading(isLoading){
+            const container = document.getElementById("loading");
+            if(isLoading){
+                container.className = "visible";
+            }
+            else{
+                container.className = "hidden";
+            }
+        }
+        function getPosts(page,limit){
+            page = page || 1;
+            limit = limit || 3;
+            return fetch(`http://localhost:3000/posts?_page=${page}&_limit=${limit}`)
+            .then(function(response){
+                return response.json()
+            })
+        }
+
+        function displayPosts(data, targetId){
+            const target = document.getElementById(targetId);
+            target.innerHTML = null;
+            const div = document.createElement("div");
+            for(post of data){
+                const card = createPostCard(post);
+                div.append(card);
+            }
+            target.append(div);
+        }
+
+        function createPostCard(post){
+            const div = document.createElement("div");
+            div.className = "post-container";
+            const h3 = document.createElement("h3");
+            h3.textContent = post.title;
+
+            const p = document.createElement("p")
+            p.textContent = post.body;
+
+            const delBtn = document.createElement("button");
+            delBtn.textContent = "Delete"; 
+            delBtn.name = post.id;
+            delBtn.className = "delete-post-btn";
+
+            div.append(h3,p,delBtn);
+            return div;
+        }
+
+        async function fetchPosts(page,limit){
+            try{
+                //loading indicators
+                setLoading(true);
+                const results = await getPosts(page,limit);
+                data = results;
+                displayPosts(results, "results");
+                setLoading(false);
+            }
+            catch(e){
+
+            }
+        }
+        fetchPosts(currentPage,limit)
+
+        function createPost(data){
+            //fetch(url, config)
+            //data = {title, body}
+            const config = {
+                method: "POST",
+                headers: {
+                    'Content-type':'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+            return fetch("http://localhost:3000/posts",config)
+            .then(function(response){
+                return response.json()
+            })
+        }
+
+            async function handleSubmit(){
+                try{
+                    event.preventDefault();
+                    setLoading(true);
+                    const form = document.getElementById("form");
+                    const formData= new FormData(form);
+
+                    const title = formData.get("title");
+                    const body = formData.get("body");
+
+                    const response = await createPost({title,body});
+                    await fetchPosts();
+
+                    console.log(response);
+                    setLoading(false);
+                  }
+                catch(err){
+
+                }
+                
+            }
+
+    </script>
+</body>
+</html>

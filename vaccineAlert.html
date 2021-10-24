@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccine Alert System</title>
+</head>
+<body>
+   Name: <input type="text" id="name" />
+   Age: <input type="number" id="age">
+   <button id="register">Register</button>
+   <div id="queue"></div>
+   <div id="people" style="float: right; border: 1px solid black; width: 50px; height: 50px; text-align: center; margin-right: 60%;"></div>
+
+   <script type="text/javascript">
+        var totalVaccine = 5;
+
+        window.addEventListener("load", function(){
+            const btn = document.getElementById('register');
+            btn.addEventListener("click",register);
+        })
+        const queue = [{name:"Albert", age: 30},{name:"Nrupul",age: 40},{name: "Aman",age:28},{name:"Arjun",age: 35}];
+
+         function checkQueue(name){
+              return new Promise(function(resolve,reject){
+                  const id = setInterval(function(){
+                      if(queue[0]===name){
+                          resolve(`${name} its your turn now`);
+                          clearInterval(id)
+                      }
+                  },1000)
+              })
+         }
+
+        function register(){
+            let message = `There are ${queue.length} more people before you`
+            const name = document.getElementById('name').value;
+            const age = document.getElementById("age").value;
+            const obj = {
+                name : name,
+                age: Number(age),
+            }
+            queue.push(obj);
+            if(age>60)
+            {
+                queue.sort(function(a,b){
+                    return b.age - a.age;
+                })
+            }
+            visualize(queue);
+            console.log("queue",queue);
+
+            vaccination();
+            alert(message);
+
+            checkQueue(name)
+            .then(function(message){
+                alert(message)
+            })
+            .catch(function(err){
+                console.log(err);
+            })
+
+        }
+
+        //* this runs every n seconds
+        function vaccination(){
+            if(queue.length===0){
+                clearInterval(id)
+            }
+            visualize(queue);
+            if(totalVaccine<0)
+            {
+                alert("Vaccine out of stock, Visit tomorrow");
+                clearInterval(id);
+            }
+            queue.shift();
+            totalVaccine=totalVaccine-1;
+        }
+         function visualize(queue){
+             const qContainer = document.getElementById("queue");
+             qContainer.innerHTML = "";
+             const ul = document.createElement("ul");
+             queue.forEach(function(queue) {
+                 const el = document.createElement("li");
+                 el.textContent = queue.name + " - " + queue.age;
+                 ul.append(el);
+             });
+             qContainer.append(ul);
+             const totalPeopleLeft= queue.length;
+             const div = document.getElementById("people");
+             div.textContent="";
+             div.append(totalPeopleLeft);
+
+         }
+        const id= setInterval(vaccination,2000)
+
+
+   </script>
+    
+</body>
+</html>

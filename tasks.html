@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks Completed by constructor function</title>
+</head>
+<body>
+    <form>
+        <label>Task Name</label>
+        <input type="text" id="task">
+        <select id="select">
+            <option value="False">False</option>
+            <option value="True">True</option>
+        </select>
+        <input type="submit" value="Submit" /> 
+    </form>
+    <table border="1" style="border-color: red;">
+        <tr>
+            <th>Task Name</th>
+            <th>Task Creation Date</th>
+            <th>Task Status</th>
+        </tr>
+    </table>
+    <script>
+        var btn=document.querySelector("form"); // Select form tag for input
+        function Constructor(name){ // create a constructor function for task
+            this.name=name;  // parameter for tasks name
+            this.date= new Date().toString();  // Parameter for tasks date
+            this.status=false; // Parameter for tasks status
+        }
+        function addItem(e){  // add name of task from input box
+            e.preventDefault();
+            var tasks=document.getElementById('task').value;
+            var status=document.getElementById('select').value;
+            create(tasks,status); // calling of create function
+        }
+        var count=1;
+
+        function create(tasks,status){  // calling of create function for creating lists of tasks name, date and status.
+            Constructor.call(this); // calling of constructor function inside create function. 
+            var tbl = document.querySelector('table');  // creating table tag
+            var tr=document.createElement('tr');  // creating tr tag
+
+            // storing object elements in column.
+            var td1=document.createElement('td');
+            td1.textContent= tasks; 
+            var td2= document.createElement('td');
+            td2.textContent=this.date;
+            var td3=document.createElement('td');
+            if(status==='')
+            {
+                status='False';
+            }
+            td3.textContent=status;
+            count++;
+           
+            // Add element in row 
+            tr.appendChild(td1); 
+            tr.appendChild(td2); 
+            tr.appendChild(td3); 
+            
+            // Add row in table
+            tbl.appendChild(tr);
+
+           document.getElementById('task').value="";  // for taking input from user through input box.
+           document.getElementById('select').value="False";
+        }
+        
+        btn.addEventListener('submit', addItem); // eventlistener for onclick on submit button, show the task on webpage in list format.
+    </script>
+</body>
+</html>

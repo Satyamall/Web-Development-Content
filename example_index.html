@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="count">0</h1>
+    <button id="btn">CLICK ME</button>
+    <script type="text/javascript">
+          const countElem = document.getElementById('count');
+          const btn= document.getElementById('btn');
+          btn.addEventListener("click",onClick);
+
+          window.addEventListener("load",function(){
+              let num = localStorage.getItem("number");
+              num = Number(num);
+              if(Number.isNaN(num)){
+                  num=0;
+                  localStorage.setItem("number",0);
+              }
+              countElem.textContent = num;
+          })
+
+          function onClick(){
+              // increment the count
+              // and update the browser
+              let num = Number(countElem.textContent);
+              if(Number.isNaN(num)){
+                  alert("not a number");
+                  return
+              }
+              num++;
+              countElem.textContent = num;
+
+              localStorage.setItem("number",num);
+          }
+    </script>
+</body>
+</html>

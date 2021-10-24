@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather By Fetch</title>
+    <style>
+        .hidden{
+            display: none;
+        }
+        .visible{
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="city" placeholder="city">
+    <button id="search">Search</button>
+    <div id="weather_api_loading" class="hidden">
+        .....loading
+    </div>
+    <div id="container">
+        
+    </div>
+
+    <script type="text/javascript">
+        window.addEventListener('load', function () {
+            const search = document.getElementById("search");
+            search.addEventListener("click", handleSearch)
+        })
+
+        const API_Key = "ec1c8d4ad5369b7f0b3514d3d6c78460";
+
+        function getWeather(city_name) {
+            if(!city_name){
+                alert("Please pass the city name")
+                return
+            }
+            return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city_name}&appid=${API_Key}`)
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (response) {
+                return response
+            })
+                
+        }
+
+        function handleSearch(){
+            const city = document.getElementById("city").value;
+            const loading = document.getElementById("weather_api_loading");
+            loading.className = "visible";
+            getWeather(city)
+            .then(function(response){
+                console.log(response)
+                const container = document.getElementById("container");
+
+                container.innerHTML = "";
+
+                const city = document.createElement("div");
+                city.textContent = response.name;
+
+                let temp = document.createElement("div");
+                temp.textContent = `Temperature : ${Math.floor(response.main.temp - 273.15)} °C`;
+
+                container.append(city, temp)
+                loading.className = "hidden";
+            })
+            .catch(function(err){
+
+            })
+        }
+
+    </script>
+</body>
+
+</html>

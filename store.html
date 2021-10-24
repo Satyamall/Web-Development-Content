@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store By Fetch</title>
+    <style>
+        /* #container {
+            display: flex;
+        } */
+
+        #container>div {
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: 20px;
+            flex: 1;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .card-container {
+            padding: 0.5rem;
+            border: 1px solid black;
+            display: flex;
+            margin-bottom: 1rem;
+            width: 400px;
+            justify-content: center;
+        }
+
+        .card-container>div {
+            padding: 0.5rem;
+        }
+
+        .card-container>img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+
+    </div>
+    <script type="text/javascript">
+        let data = [];
+        function loadProducts() {
+            return fetch("https://fakestoreapi.com/products")
+            .then(function (response) {
+                return response.json();
+            })
+            // .then(function(){
+            //     console.log(response)
+            //     createProductCards(response)
+            // })
+            .catch(function (error) {
+
+            })
+        }
+
+        function createProductCards(data) {
+            const container = document.getElementById('container');
+            container.innerHTML = "";
+            const div = document.createElement('div');
+            let row = document.createElement("div");
+            for (let product of data) {
+                const card = createCard(product);
+                div.append(card);
+            }
+            container.append(div);
+        }
+
+        function createCard(data) {
+            const div = document.createElement("div");
+            div.className = "card-container";
+
+            // *image
+            const img = document.createElement("img");
+            img.src = data.image;
+
+            const right = document.createElement("div");
+
+            // *title
+            const h3 = document.createElement("h3");
+            h3.textContent = `${data.title}`
+            const price = document.createElement("div");
+            price.textContent = `Price: ${data.price}`
+
+            //*footer
+            const footer = document.createElement("footer");
+            const description = document.createElement("div");
+            description.textContent=data.description;
+            const rating = document.createElement("div");
+            rating.textContent = `Rating: ${data.rating.rate} - Count: ${data.rating.count}`
+
+            footer.append(description,rating);
+
+            right.append(h3, price, footer);
+
+            div.append(img, right)
+            return div
+        }
+
+        loadProducts()
+        .then(function (response) {
+            console.log(response);
+            createProductCards(response)
+        })
+    </script>
+</body>
+
+</html>

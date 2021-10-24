@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McDonald's food ticketing system</title>
+    <style>
+        #upper{
+            width: 100%;
+            height: 100px;
+        }
+        #upper>img{
+            float: left;
+            width: 50%;
+            height: 100px;
+        }
+        #box{
+            width: 300px;
+            border: 2px solid red;
+            background-color: rgb(116, 18, 18);
+            color: white;
+            margin-left: 100px;
+        }
+        #box-1{
+            width: 50%;
+            margin: auto;
+        }
+        #btn{
+            background-color: tomato;
+        }
+        #img-box{
+            width: 200px;
+            height: 200px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="upper">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMz5IO_4ollMVRsRyN1d-dd4GHsBytBYAlQQ&usqp=CAU" alt="">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMz5IO_4ollMVRsRyN1d-dd4GHsBytBYAlQQ&usqp=CAU" alt="">
+    </div>
+    <h1 style="text-align: center; color: red; background-color: rebeccapurple;">WELLCOME TO ONLIE FOOD DELIVER WEBSITE</h1>
+    <div id="right" style="float: right;"></div>
+    <div id="box">
+       <div id="box-1">
+        <input type="checkbox" form="order" class="food" value="1">
+        <label for="order">PIZZA</label>
+        <br>
+        <input type="checkbox" form="order" class="food" value="2">
+        <label for="order">BURGER</label>
+        <br>
+        <input type="checkbox" form="order" class="food" value="3">
+        <label for="order">CHAUMIN</label>
+        <br>
+        <input type="checkbox" form="order" class="food" value="4">
+        <label for="order">DOSA</label>
+        <br>
+        <input type="checkbox" form="order" class="food" value="5">
+        <label for="order">BIRYANI VEG</label>
+        <br>
+        <br>
+        <button id="btn">Order Food</button>
+       </div>
+    </div>
+    <div id="img-box">
+
+    </div>
+
+    <script>
+        var foodItemsImg = ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSATfQlbRabAUazL0U-v-oszxC--rG1SklZAw&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXg9KemuvAIdTj4JIrtzITfUF7Jw2rYotoYg&usqp=CAU",
+                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBisXtBJX_rgBTbbqy_se6bRF3PGI1NYc2Og&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Lgf9PsdcPW9WNoaWaDfY4fbOh3WovXn69g&usqp=CAU",
+                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT66dzKwifYpA9Xmzl3g3VYmUsVrXoUOzGf0w&usqp=CAU"]
+
+        function orderFood(){
+            return new Promise(function(resolve,reject){
+                resolve("We Will resolve after 5 seconds")
+            })
+
+        }
+        
+        function order(){
+            var checkedValue = null;
+            var inputs = document.getElementsByClassName("food");
+            for(var i=0; inputs[i]; ++i)
+            {
+                if(inputs[i].checked){
+                    checkedValue= inputs[i].value;
+                    break;
+                }
+            }
+
+            // visualize(checkedValue);
+            
+            orderFood()
+            .then(function(val){
+                alert(val);
+                setTimeout(function(){
+                    visualize(checkedValue);
+                },5000)
+            })
+            .catch(function(err){
+                
+            })
+            
+        }
+
+        function visualize(val){
+            var imgBox = document.getElementById("img-box");
+            imgBox.innerHTML="";
+            var img = document.createElement("img");
+            img.src = foodItemsImg[val-1];
+            imgBox.append(img);
+
+            var right =document .getElementById("right");
+            right.innerHTML="";
+            var div = document.createElement("div");
+            div.innerHTML = "";
+            div.textContent ="order ID: "+ val;
+            div.style.float= "right";
+            div.style.width= 100 + "px";
+            div.style.height = 30 + "px";
+            div.style.backgroundColor = "black";
+            div.style.color ="white";
+            div.style.textAlign="center";
+            right.append(div);
+            // document.body.append(imgBox,div);
+        }
+
+        window.addEventListener("load",function(){
+            var btn = document.getElementById("btn");
+            btn.addEventListener("click",order);
+        })
+    </script>
+</body>
+</html>

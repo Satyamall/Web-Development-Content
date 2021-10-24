@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Js Datatype</title>
+    <style>
+        #object{
+            background-color: brown;
+        }
+        #array{
+            background-color: cadetblue;
+        }
+        #function{
+            background-color: chocolate;
+        }
+        #string{
+            background-color: cornflowerblue;
+        }
+        #number{
+            background-color: cyan;
+        }
+        #null{
+            background-color: darkgray;
+        }
+        #undefined{
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <button id="object">Objects</button>
+    <button id="array">Arrays</button>
+    <button id="function">Functions</button>
+    <button id="string">Strings</button>
+    <button id="number">Numbers</button>
+    <button id="null">null</button>
+    <button id="undefined">Undefined</button>
+    <script>
+        var obj=document.getElementById('object');
+        var arr=document.getElementById('array');
+        var fun=document.getElementById('function');
+        var str=document.getElementById('string');
+        var num=document.getElementById("number");
+        var nul=document.getElementById('null');
+        var und=document.getElementById('undefined');
+        var body=document.querySelector('body');
+
+        var info_obj=["What are objects","How they work","Mutability","What are keys in object","what are values in object","How they work in loop"];
+        function object(){
+            var ul=document.createElement('ul');
+            for(var i=0; i<info_obj.length; i++)
+            {
+                var li=document.createElement('li');
+                li.textContent=info_obj[i];
+                ul.appendChild(li);
+            }
+            body.appendChild(ul);
+        }
+        obj.addEventListener('click',object);
+        
+        var info_arr=["What are arrays","How they work","Mutability","How they defined","How to fined the size of array","How they work in loop"];
+        function array(){
+            var ul=document.createElement('ul');
+            for(var i=0; i<info_arr.length; i++)
+            {
+                var li=document.createElement('li');
+                li.textContent=info_arr[i];
+                ul.appendChild(li);
+            }
+            body.appendChild(ul);
+        }
+        arr.addEventListener('click',array);
+        
+        var info_fun=["What are functions","How they work","Mutability","How many types of functions","Datatypes of function","How they work with arguments"];
+        function funct(){
+            var ul=document.createElement('ul');
+            for(var i=0; i<info_fun.length; i++)
+            {
+                var li=document.createElement('li');
+                li.textContent=info_fun[i];
+                ul.appendChild(li);
+            }
+            body.appendChild(ul);
+        }
+        fun.addEventListener('click',funct);
+
+        var info_str=["What are strings","How they work","Mutability","What are properties of string","How they work as array","How they work in loop"];
+        function string(){
+            var ul=document.createElement('ul');
+            for(var i=0; i<info_str.length; i++)
+            {
+                var li=document.createElement('li');
+                li.textContent=info_str[i];
+                ul.appendChild(li);
+            }
+            body.appendChild(ul);
+        }
+        str.addEventListener('click',string);
+
+        var info_num=["What are numbers","How they work","Mutability","What are datatypes of numbers","Types of numbers","How they defined"];
+        function number(){
+            var ul=document.createElement('ul');
+            for(var i=0; i<info_num.length; i++)
+            {
+                var li=document.createElement('li');
+                li.textContent=info_num[i];
+                ul.appendChild(li);
+            }
+            body.appendChild(ul);
+        }
+        num.addEventListener('click',number);
+
+        var info_nul=["What are null","How they work","Mutability","Where is using of null","what is importance of null","How they use in code"];
+        function Null(){
+            var ul=document.createElement('ul');
+            for(var i=0; i<info_nul.length; i++)
+            {
+                var li=document.createElement('li');
+                li.textContent=info_nul[i];
+                ul.appendChild(li);
+            }
+            body.appendChild(ul);
+        }
+        nul.addEventListener('click',Null);
+
+        var info_und=["What are undefined","How they work","Mutability","Why it is use in code","what is importance of undefined","How it's look in code output"];
+        function unde(){
+            var ul=document.createElement('ul');
+            for(var i=0; i<info_und.length; i++)
+            {
+                var li=document.createElement('li');
+                li.textContent=info_und[i];
+                ul.appendChild(li);
+            }
+            body.appendChild(ul);
+        }
+        und.addEventListener('click',unde);
+
+
+    </script>
+</body>
+</html>

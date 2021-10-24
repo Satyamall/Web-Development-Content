@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks Completed by constructor function</title>
+</head>
+<body>
+    <form>
+        <label>Task Name</label>
+        <input type="text" id="task">
+        <input type="submit" value="Submit" /> 
+    </form>
+    <script>
+        var div=document.querySelector('body'); // Select box for output
+        var btn=document.querySelector("form"); // Select form tag for input
+        function constructor(name){ // create a constructor function for task
+            this.name=name;  // parameter for tasks name
+            this.date= new Date().toLocaleDateString();  // Parameter for tasks date
+            this.status=false; // Parameter for tasks status
+        }
+
+        function toggle_task(status){
+            if(status)
+            {
+                return status=true;
+            }
+            else{
+                return status=false;
+            }
+        }
+
+
+        function addItem(e){  // add name of task from input box
+            e.preventDefault();
+            var tasks=document.getElementById('task').value;
+            create(tasks); // calling of create function
+        }
+        var count=1;
+
+        function create(tasks){  // calling of create function for creating lists of tasks name, date and status.
+            constructor.call(this); // calling of constructor function inside create function. 
+            var ul = document.createElement('ul');  // creating ul tag
+            var li=document.createElement('li');  // creating li tag
+            li.textContent= tasks +", "+ this.date + ", "+ toggle_task(this.status);  // storing object elements in li
+            count++;
+            ul.appendChild(li); // li element store in ul tag
+           div.appendChild(ul); // ul element store in div box for output.
+           document.getElementById('task').value="";  // for taking input from user through input box.
+        }
+        
+        btn.addEventListener('submit', addItem); // eventlistener for onclick on submit button, show the task on webpage in list format.
+    </script>
+</body>
+</html>

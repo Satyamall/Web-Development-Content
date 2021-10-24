@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DICE</title>
+</head>
+<body>
+    <button style="background-color: brown;">throw dice</button>
+    <div></div>
+    <script>
+        var btn=document.querySelector("button");
+        var div=document.querySelector('div');
+        function random(n){
+            return Math.floor(Math.random()*n);
+        }
+
+        function num(){
+            var randomNum = random(7);
+            div.style.border= '1px solid black';
+            div.style.width = 30+'px';
+            div.style.height = 30 + 'px';
+            div.style.marginTop = 20 +'px';
+            div.style.textAlign = 'center';
+            if(randomNum===0)
+            {
+                div.textContent=2;
+            }
+            else
+            {
+              div.textContent = randomNum;
+            }
+            if(randomNum===1)
+            {
+                div.style.color = 'red';
+            }
+            else if(randomNum===6)
+            {
+                div.style.color = 'green';
+            }
+            else{
+                div.style.color = 'rgb(' + random(255) + "," + random(255) + "," + random(255) + ")";
+            }
+        }
+
+        btn.addEventListener('click',num);
+    </script>
+</body>
+</html>
